@@ -7,7 +7,7 @@ lint:
 	flake8 || true
 
 test:
-	pytest --maxfail=1 -q
+	PYTHONPATH=. pytest --maxfail=1 -q
 
 coverage:
 	pytest --maxfail=1 --quiet --cov=policy --cov-report=term-missing
