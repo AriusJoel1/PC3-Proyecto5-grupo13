@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# git-hooks/pre-push
+
+echo "Ejecutando verificaciones rápidas de pre-push..."
+
+# ejecutar verificaciones rápidas de políticas en Python
+PYTHONPATH=. python scripts/check_policies.py infra/terraform || echo "política: se detectaron hallazgos (bloqueará en CI si son de tipo High)"
+
+# verificación básica de terraform fmt
+if command -v terraform >/dev/null 2>&1; then
+  (cd infra/terraform && terraform fmt -check) || { echo "terraform fmt falló"; exit 1; }
+else
+  echo "terraform no está instalado; omitiendo verificación de terraform fmt"
+fi
+
+# se puede usar exit 1 para bloquear el push si es necesario
+exit 0
