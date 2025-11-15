@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Validar mensajes según Conventional Commits
+MSG_FILE=$1
+MSG=$(cat "$MSG_FILE")
+
+# Regex básico para Conventional Commits
+if ! echo "$MSG" | grep -E "^(feat|fix|docs|chore|refactor|test|ci|perf)(\([a-z0-9\-\_]+\))?:\s.+$" >/dev/null; then
+  echo "El mensaje de commit no cumple con el formato de Conventional Commits."
+  echo "Ejemplo válido: 'feat(modulo): agrega la nueva funcionalidad'"
+  exit 1
+fi
+
+exit 0
